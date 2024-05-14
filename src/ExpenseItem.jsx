@@ -2,7 +2,7 @@ import React from "react";
 
 function ExpenseItem() {
 	return (
-		<div className="my-0 flex ml-10 w-auto p-0">
+		<div className="my-0 flex ml-4 w-auto p-0">
 			<div className="flex flex-col bg-slate-200">
 				<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">AMZN</div>
 			</div>
