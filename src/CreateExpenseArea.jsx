@@ -2,9 +2,7 @@ import React, { useCallback, useState } from "react";
 import ExpenseInputArea from "./ExpenseInputArea";
 import ExpenseItem from "./ExpenseItem";
 
-function CreateExpenseArea() {
-	const [expenses, setExpenses] = useState([]);
-
+function CreateExpenseArea({ expenses, setExpenses }) {
 	function addExpense(newexpense) {
 		console.log("expense list: ", expenses);
 		console.log("new expense: ", newexpense);

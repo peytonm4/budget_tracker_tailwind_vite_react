@@ -4,7 +4,7 @@ function ExpenseInputArea(props) {
 	const [expense, setExpense] = useState({
 		vendor: "",
 		category: "",
-		amount: "",
+		amount: 0,
 		date: "",
 	});
 
@@ -23,7 +23,7 @@ function ExpenseInputArea(props) {
 		setExpense({
 			vendor: "",
 			category: "",
-			amount: "",
+			amount: 0,
 			date: "",
 		});
 		event.preventDefault();
@@ -66,6 +66,7 @@ function ExpenseInputArea(props) {
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Date</div>
 					<input
 						name="date"
+						type="date"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
 						value={expense.date}
