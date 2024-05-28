@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import categories from "./categories.js";
 
 function ExpenseInputArea(props) {
 	const [expense, setExpense] = useState({
@@ -35,6 +36,7 @@ function ExpenseInputArea(props) {
 				<div className="flex flex-col bg-slate-200">
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Vendor</div>
 					<input
+						required
 						name="vendor"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
@@ -44,17 +46,25 @@ function ExpenseInputArea(props) {
 				</div>
 				<div className="flex flex-col bg-slate-200">
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Category</div>
-					<input
+					<select
+						required
 						name="category"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
 						value={expense.category}
-						placeholder="Enter Category"
-					></input>
+					>
+						<option value="" className="">
+							--make selection--
+						</option>
+						{categories.map((item) => (
+							<option value={item.category}>{item.category}</option>
+						))}
+					</select>
 				</div>
 				<div className="flex flex-col bg-slate-200">
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Amount</div>
 					<input
+						required
 						name="amount"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
@@ -65,6 +75,7 @@ function ExpenseInputArea(props) {
 				<div className="flex flex-col bg-slate-200">
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Date</div>
 					<input
+						required
 						name="date"
 						type="date"
 						className="w-40 bg-yellow-200 text-center"
