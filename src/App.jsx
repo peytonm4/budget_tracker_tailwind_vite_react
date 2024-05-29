@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import CreateExpenseArea from "./CreateExpenseArea.jsx";
 import categories from "./categories.js";
+import CategoriesContext from "./CreateCategoriesContext.jsx";
+import CreateNewCatergoryArea from "./CreateNewCategoryArea.jsx";
 
 function App() {
 	const [expenses, setExpenses] = useState([]);
@@ -39,7 +41,7 @@ function App() {
 
 	function ExpenseSummary() {
 		// Initialize totals with all categories set to zero
-		const initialTotals = categories.reduce((totals, category) => {
+		const initialTotals = useContext(CategoriesContext).reduce((totals, category) => {
 			totals[category.category] = 0.0;
 			return totals;
 		}, {});
@@ -67,6 +69,7 @@ function App() {
 			<div className="flex flex-row">
 				<div className="w-1/3 flex flex-col p-4">{ExpenseSummary()}</div>
 				<CreateExpenseArea expenses={expenses} setExpenses={setExpenses} />
+				<CreateNewCatergoryArea />
 			</div>
 			<Footer />
 		</div>

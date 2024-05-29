@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import categories from "./categories.js";
+import CategoriesContext from "./CreateCategoriesContext.jsx";
 
 function ExpenseInputArea(props) {
 	const [expense, setExpense] = useState({
@@ -11,6 +12,7 @@ function ExpenseInputArea(props) {
 
 	function handleChange(event) {
 		const { name, value } = event.target;
+
 		setExpense((prevExpense) => {
 			return {
 				...prevExpense,
@@ -56,7 +58,7 @@ function ExpenseInputArea(props) {
 						<option value="" className="">
 							--make selection--
 						</option>
-						{categories.map((item) => (
+						{useContext(CategoriesContext).map((item) => (
 							<option value={item.category}>{item.category}</option>
 						))}
 					</select>
@@ -86,7 +88,9 @@ function ExpenseInputArea(props) {
 				</div>
 			</div>
 			<div className="flex justify-end">
-				<button className=" bg-emerald-500 border-solid border-2 border-black px-2 w-14 rounded-xl mb-4">Add</button>
+				<button type="submit" className=" bg-emerald-500 border-solid border-2 border-black px-2 w-14 rounded-xl mb-4">
+					Add
+				</button>
 			</div>
 		</form>
 	);
