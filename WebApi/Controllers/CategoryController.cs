@@ -26,17 +26,20 @@ namespace WebApi.Controllers
         [HttpGet("get-all-categories")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
-            return await _categoryService.GetAllCategories();
+            List<Category> categories = await _categoryService.GetAllCategories();
+
+            return Ok(categories);
         }
 
         [HttpPost("create")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<Category> CreateCategory(Category category)
+        public async Task<ActionResult<Category>> CreateCategory([FromBody] Category category)
         {
-            return await _categoryService.CreateCategory(category);
+            Category createdCategory =  await _categoryService.CreateCategory(category);
+            return Ok(createdCategory);
         }
     }
 }

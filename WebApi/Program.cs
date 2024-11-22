@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ExpenseService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,7 +23,21 @@ builder.Services.AddDbContext<ExpenseTrackerContext>(options =>
     ServiceLifetime.Scoped
 );
 
+// Add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

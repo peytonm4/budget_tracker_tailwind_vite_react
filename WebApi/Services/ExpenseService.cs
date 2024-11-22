@@ -23,6 +23,9 @@ namespace WebApi.Services
 
         public async Task<Expense> CreateExpense(Expense expense)
         {
+            expense.ExpenseDate.ToUniversalTime();
+            expense.DateAdded.ToUniversalTime();
+            expense.DateModified.ToUniversalTime();
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             return expense;

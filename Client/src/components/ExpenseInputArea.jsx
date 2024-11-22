@@ -1,19 +1,25 @@
 import React, { useContext, useState } from "react";
-import categories from "./categories.js";
-import CategoriesContext from "./CreateCategoriesContext.jsx";
+import { useCategoryContext } from "./CreateCategoriesContext";
+import useExpenseApi from "../hooks/useExpenses";
 
-function ExpenseInputArea(props) {
-	const [expense, setExpense] = useState({
-		vendor: "",
-		category: "",
-		amount: 0,
-		date: "",
+
+function ExpenseInputArea({ fetchExpenses }) {
+
+	const { categories } = useCategoryContext();
+	const [newExpense, setNewExpense] = useState({
+		id: 0,
+    vendor: "",
+    categoryId: "",
+    amount: 0.00,
+    expenseDate: ""
 	});
+	const { createExpense } = useExpenseApi();
+
 
 	function handleChange(event) {
 		const { name, value } = event.target;
 
-		setExpense((prevExpense) => {
+		setNewExpense((prevExpense) => {
 			return {
 				...prevExpense,
 				[name]: value,
@@ -21,19 +27,34 @@ function ExpenseInputArea(props) {
 		});
 	}
 
-	function submitExpense(event) {
-		props.onAdd(expense);
-		setExpense({
-			vendor: "",
-			category: "",
-			amount: 0,
-			date: "",
-		});
+	// function submitExpense(event) {
+	// 	props.onAdd(expense);
+	// 	setExpense({
+	// 		vendor: "",
+	// 		category: "",
+	// 		amount: 0,
+	// 		date: "",
+	// 	});
+	// 	event.preventDefault();
+	// }
+
+	const addNewExpense = async (event) => {
 		event.preventDefault();
+		const newlyCreatedExpense = await createExpense(newExpense);
+		await fetchExpenses();
+		setNewExpense((prevExpense) => {
+			return {
+				id: 0,
+				vendor: "",
+				categoryId: "",
+				amount: 0.00,
+				expenseDate: ""
+			};
+		});
 	}
 
 	return (
-		<form id="expenseForm" onSubmit={submitExpense} className="mx-auto">
+		<form id="expenseForm" onSubmit={addNewExpense} className="mx-auto">
 			<div className="flex p-4 pb-8 m-auto h-auto">
 				<div className="flex flex-col bg-slate-200">
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Vendor</div>
@@ -42,7 +63,7 @@ function ExpenseInputArea(props) {
 						name="vendor"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
-						value={expense.vendor}
+						value={newExpense.vendor}
 						placeholder="Enter Vendor"
 					></input>
 				</div>
@@ -50,16 +71,16 @@ function ExpenseInputArea(props) {
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Category</div>
 					<select
 						required
-						name="category"
+						name="categoryId"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
-						value={expense.category}
+						value={newExpense.categoryId}
 					>
 						<option value="" className="">
 							--make selection--
 						</option>
-						{useContext(CategoriesContext).map((item) => (
-							<option value={item.category}>{item.category}</option>
+						{categories.map((item) => (
+							<option value={item.id}>{item.name}</option>
 						))}
 					</select>
 				</div>
@@ -70,7 +91,7 @@ function ExpenseInputArea(props) {
 						name="amount"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
-						value={expense.amount}
+						value={newExpense.amount}
 						placeholder="Enter Amount"
 					></input>
 				</div>
@@ -78,11 +99,11 @@ function ExpenseInputArea(props) {
 					<div className="w-40 bg-white p-2 border-stone-900 border-2 text-center">Date</div>
 					<input
 						required
-						name="date"
+						name="expenseDate"
 						type="date"
 						className="w-40 bg-yellow-200 text-center"
 						onChange={handleChange}
-						value={expense.date}
+						value={newExpense.expenseDate}
 						placeholder="Enter Date"
 					></input>
 				</div>
