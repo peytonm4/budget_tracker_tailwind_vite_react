@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import useCategoryApi from "../hooks/useCategories";
 import { useCategoryContext } from "./CreateCategoriesContext";
 
-function CreateNewCatergoryArea() {
+function CreateNewCategoryArea() {
 	const [newCategory, setNewCategory] = useState({
 		id: 0,
 		name: ""
@@ -48,4 +48,4 @@ function CreateNewCatergoryArea() {
 	);
 }
 
-export default CreateNewCatergoryArea;
+export default CreateNewCategoryArea;

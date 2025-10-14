@@ -3,7 +3,7 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import CreateExpenseArea from "../components/CreateExpenseArea.jsx";
 import categories from "../categories.js";
-import CreateNewCatergoryArea from "../components/CreateNewCategoryArea.jsx";
+import CreateNewCategoryArea from "../components/CreateNewCategoryArea.jsx";
 import useCategoryApi from "../hooks/useCategories.jsx";
 import { useCategoryContext } from "../components/CreateCategoriesContext.jsx";
 import useExpenseApi from "../hooks/useExpenses.jsx";
@@ -34,7 +34,10 @@ function App() {
 		}, {});
 
 		const categoryTotals = expenses.reduce((totals, expense) => {
-			totals[expense.category] = (parseFloat(totals[expense.category]) + parseFloat(expense.amount)).toFixed(2);
+			// Find the category name by id
+			const categoryObj = categories.find(cat => cat.id === expense.categoryId);
+			const categoryName = categoryObj ? categoryObj.name : "Unknown";
+			totals[categoryName] = (parseFloat(totals[categoryName]) + parseFloat(expense.amount)).toFixed(2);
 			return totals;
 		}, initialTotals);
 
@@ -56,7 +59,7 @@ function App() {
 			<div className="flex flex-row">
 				<div className="w-1/3 flex flex-col p-4">{ExpenseSummary()}</div>
 				<CreateExpenseArea expenses={expenses} setExpenses={setExpenses} />
-				<CreateNewCatergoryArea />
+				<CreateNewCategoryArea />
 			</div>
 			<Footer />
 		</div>

@@ -41,7 +41,10 @@ function ExpenseInputArea({ fetchExpenses }) {
 	const addNewExpense = async (event) => {
 		event.preventDefault();
 		const newlyCreatedExpense = await createExpense(newExpense);
+		//await fetchExpenses();
+		if (fetchExpenses) {
 		await fetchExpenses();
+		}
 		setNewExpense((prevExpense) => {
 			return {
 				id: 0,
