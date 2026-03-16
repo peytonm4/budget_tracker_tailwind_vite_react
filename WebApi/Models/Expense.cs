@@ -9,6 +9,7 @@ namespace WebApi.Models
     {
         public int Id { get; set; }
         public string Vendor { get; set;} = "";
+        public string Type { get; set; } = "expense";
         public int CategoryId { get; set; }
         public decimal Amount { get; set;} = 0;
         public Category? Category { get; set; } 

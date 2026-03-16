@@ -27,5 +27,14 @@ namespace WebApi.Services
             await _context.SaveChangesAsync();
             return category;
         }
+
+        public async Task<Category?> DeleteCategory(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return null;
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return category;
+        }
     }
 }

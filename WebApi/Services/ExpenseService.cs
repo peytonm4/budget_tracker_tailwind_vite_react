@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Contexts;
@@ -11,28 +10,31 @@ namespace WebApi.Services
     public class ExpenseService
     {
         private readonly ExpenseTrackerContext _context;
+
         public ExpenseService(ExpenseTrackerContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Expense>> GetAllExpenses() 
+        public async Task<List<Expense>> GetAllExpenses()
         {
             return await _context.Expenses.ToListAsync();
         }
 
         public async Task<Expense> CreateExpense(Expense expense)
         {
-            expense.ExpenseDate.ToUniversalTime();
-            expense.DateAdded.ToUniversalTime();
-            expense.DateModified.ToUniversalTime();
+            expense.DateAdded = DateTime.UtcNow;
+            expense.ExpenseDate = expense.ExpenseDate.ToUniversalTime();
+            expense.DateModified = DateTime.UtcNow;
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
             return expense;
         }
 
-        public async Task<Expense> DeleteExpense(Expense expense)
+        public async Task<Expense?> DeleteExpense(int id)
         {
+            var expense = await _context.Expenses.FindAsync(id);
+            if (expense == null) return null;
             _context.Expenses.Remove(expense);
             await _context.SaveChangesAsync();
             return expense;

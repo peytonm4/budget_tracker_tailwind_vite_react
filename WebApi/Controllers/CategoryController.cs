@@ -41,5 +41,16 @@ namespace WebApi.Controllers
             Category createdCategory =  await _categoryService.CreateCategory(category);
             return Ok(createdCategory);
         }
+
+        [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var deleted = await _categoryService.DeleteCategory(id);
+            if (deleted == null) return NotFound();
+            return Ok(deleted);
+        }
     }
 }
